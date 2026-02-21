@@ -1,16 +1,89 @@
-## Hi there 👋
+👋 Hi, I'm Manish Vemula
 
-<!--
-**MANISH-V14/MANISH-V14** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+🎓 Dual Master’s Graduate – MBA & MS in Information Systems
+📍 Based in Michigan, USA
+💻 Data | Analytics | Machine Learning
 
-Here are some ideas to get you started:
+🚀 About Me
 
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
+I’m passionate about turning raw data into meaningful insights and building scalable data-driven solutions.
+
+My focus is on:
+
+📊 Data Analysis & Business Insights
+
+🏗️ Data Engineering & ETL Pipelines
+
+🤖 Applied Machine Learning
+
+☁️ Cloud-based Data Workflows
+
+I enjoy building structured, production-ready projects that simulate real-world business use cases.
+
+🛠️ Tech Stack
+👨‍💻 Programming
+
+Python
+
+SQL
+
+📊 Data & ML
+
+Pandas
+
+NumPy
+
+Scikit-learn
+
+XGBoost
+
+TensorFlow (Basics)
+
+🏗️ Data Engineering
+
+PostgreSQL
+
+ETL Pipelines
+
+Data Cleaning & Transformation
+
+Docker (Learning & Practicing)
+
+☁️ Cloud & Tools
+
+AWS (S3, EC2 – basic exposure)
+
+Git & GitHub
+
+Power BI
+
+Jupyter Notebook
+
+📂 Featured Projects
+
+🔹 Retail Sales SQL Analysis
+Advanced SQL queries with window functions, KPIs, and business insights.
+
+🔹 Customer Behavior Analysis (Python)
+Data cleaning, EDA, feature engineering, and visualization.
+
+🔹 Hotel Demand Forecasting (ML)
+End-to-end ML pipeline with model comparison and evaluation metrics.
+
+🔹 ETL Pipeline using Python + PostgreSQL
+Extract → Transform → Load workflow with modular structure.
+
+📈 What I’m Currently Working On
+
+Improving Data Engineering fundamentals
+
+Building Dockerized ML pipelines
+
+Strengthening SQL optimization techniques
+
+Preparing for real-world production environments
+
+📫 Connect With Me
+
+📧 Email: manish.vs145@gmail.com
+🔗 LinkedIn: your-linkedin-here
