@@ -8,6 +8,7 @@
 
 I’m passionate about turning raw data into meaningful insights and building scalable data-driven solutions.
 🔹 Live ML Projects: [Credit Risk Scoring App](https://credit-risk-ml-api-35w58ymlamuvxt5htskdv5.streamlit.app/)
+https://retail-demand-forecast-ml-7bska8u5rzhxx9drjv63jm.streamlit.app/
 
 My focus is on:
 
