@@ -1,4 +1,4 @@
-# 👋 Hi, I'm Manish Vemula
+#  Hi, I'm Manish Vemula
 
 🎓 Dual Master’s Graduate — MBA & MS in Information Systems  
 📍 Michigan, United States  
@@ -8,7 +8,7 @@ I build **production-style data and machine learning systems** that simulate rea
 
 ---
 
-# 💫 About Me
+# About Me
 
 🔭 Currently working on  
 Production-style **Machine Learning pipelines**, ML APIs using **FastAPI**, and **Dockerized ML workflows**
@@ -30,7 +30,7 @@ I enjoy turning messy real-world datasets into structured ML pipelines that mimi
 
 ---
 
-# 🚀 Live Projects
+# Live Projects
 
 ### Credit Risk Scoring ML App
 https://credit-risk-ml-api-35w58ymlamuvxt5htskdv5.streamlit.app/
@@ -51,7 +51,7 @@ https://financial-fraud-mlops-pipeline.onrender.com/docs
 
 ---
 
-# 💻 Tech Stack
+# Tech Stack
 
 ### Programming
 ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
@@ -90,10 +90,6 @@ https://financial-fraud-mlops-pipeline.onrender.com/docs
 
 # 📊 GitHub Stats
 
-![Manish's GitHub stats](https://github-readme-stats.vercel.app/api?username=MANISH-V14&theme=tokyonight&show_icons=true)
-
-![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=MANISH-V14&layout=compact&theme=tokyonight)
-
 ![GitHub Streak](https://streak-stats.demolab.com/?user=MANISH-V14&theme=tokyonight)
 
 ---
@@ -104,4 +100,3 @@ https://financial-fraud-mlops-pipeline.onrender.com/docs
 
 ---
 
-![Visitor Count](https://visitcount.itsvg.in/api?id=MANISH-V14)
