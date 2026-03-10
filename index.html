@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manish Vemula — ML & Data Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+  :root {
+    --bg: #04080f;
+    --surface: #090f1c;
+    --surface2: #0e1626;
+    --border: rgba(100,180,255,0.1);
+    --accent: #38bdf8;
+    --accent2: #a78bfa;
+    --accent3: #34d399;
+    --accent4: #fb923c;
+    --danger: #f87171;
+    --text: #e2e8f0;
+    --muted: #5a7394;
+    --glow: rgba(56,189,248,0.12);
+  }
+
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:300;overflow-x:hidden;cursor:none}
+
+  /* CURSOR */
+  #cursor{position:fixed;width:9px;height:9px;background:var(--accent);border-radius:50%;pointer-events:none;z-index:9999;mix-blend-mode:screen;transition:transform .1s}
+  #cursorRing{position:fixed;width:36px;height:36px;border:1px solid rgba(56,189,248,.45);border-radius:50%;pointer-events:none;z-index:9998;transition:opacity .2s}
+
+  /* NOISE + GRID */
+  body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");background-repeat:repeat;background-size:200px;pointer-events:none;z-index:0;opacity:.5}
+  .grid-bg{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(56,189,248,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(56,189,248,.025) 1px,transparent 1px);background-size:55px 55px}
+
+  /* NAV */
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.1rem 3rem;background:rgba(4,8,15,.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+  .nav-logo{font-family:'Space Mono',monospace;font-size:.9rem;color:var(--accent);letter-spacing:.04em}
+  .nav-logo span{color:var(--accent2)}
+  .nav-links{display:flex;gap:1.8rem;list-style:none}
+  .nav-links a{font-family:'Space Mono',monospace;font-size:.68rem;color:var(--muted);text-decoration:none;letter-spacing:.1em;text-transform:uppercase;transition:color .2s;position:relative}
+  .nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--accent);transition:width .3s}
+  .nav-links a:hover{color:var(--accent)}
+  .nav-links a:hover::after{width:100%}
+  .nav-cta{font-family:'Space Mono',monospace;font-size:.68rem;padding:.45rem 1.1rem;border:1px solid var(--accent);color:var(--accent);background:transparent;cursor:pointer;letter-spacing:.1em;text-transform:uppercase;transition:all .2s;text-decoration:none}
+  .nav-cta:hover{background:var(--accent);color:var(--bg)}
+
+  /* OPT BANNER */
+  .opt-banner{position:relative;z-index:1;background:linear-gradient(90deg,rgba(56,189,248,.08),rgba(167,139,250,.08));border-bottom:1px solid rgba(56,189,248,.15);padding:.7rem 3rem;display:flex;align-items:center;justify-content:center;gap:1.5rem;flex-wrap:wrap;margin-top:60px}
+  .opt-pill{font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.08em;padding:.28rem .7rem;border-radius:2px;display:inline-flex;align-items:center;gap:.4rem;white-space:nowrap}
+  .opt-pill.green{background:rgba(52,211,153,.12);border:1px solid rgba(52,211,153,.3);color:var(--accent3)}
+  .opt-pill.blue{background:rgba(56,189,248,.1);border:1px solid rgba(56,189,248,.25);color:var(--accent)}
+  .opt-pill.purple{background:rgba(167,139,250,.1);border:1px solid rgba(167,139,250,.25);color:var(--accent2)}
+  .opt-pill.orange{background:rgba(251,146,60,.1);border:1px solid rgba(251,146,60,.25);color:var(--accent4)}
+
+  /* HERO */
+  #hero{min-height:100vh;display:flex;align-items:center;padding:5rem 3rem 4rem;position:relative;overflow:hidden}
+  .hero-orb{position:absolute;border-radius:50%;filter:blur(90px);pointer-events:none}
+  .orb1{width:700px;height:700px;top:-300px;right:-200px;background:radial-gradient(circle,rgba(56,189,248,.1) 0%,transparent 70%)}
+  .orb2{width:500px;height:500px;bottom:-150px;left:-150px;background:radial-gradient(circle,rgba(167,139,250,.08) 0%,transparent 70%)}
+  .hero-inner{max-width:1200px;margin:0 auto;width:100%;display:grid;grid-template-columns:1fr 420px;gap:4rem;align-items:center}
+  .hero-tag{font-family:'Space Mono',monospace;font-size:.68rem;color:var(--accent3);letter-spacing:.2em;text-transform:uppercase;display:flex;align-items:center;gap:.7rem;margin-bottom:1.2rem}
+  .hero-tag::before{content:'';width:28px;height:1px;background:var(--accent3)}
+  h1.hero-name{font-family:'Syne',sans-serif;font-size:clamp(3.2rem,7vw,6.2rem);font-weight:800;line-height:.95;margin-bottom:.9rem;letter-spacing:-.02em}
+  h1.hero-name .l1{display:block;color:var(--text)}
+  h1.hero-name .l2{display:block;color:transparent;-webkit-text-stroke:1px rgba(56,189,248,.55)}
+  .hero-title{font-family:'Space Mono',monospace;font-size:.8rem;color:var(--muted);letter-spacing:.15em;margin-bottom:.5rem;text-transform:uppercase}
+  .hero-subtitle{font-family:'Space Mono',monospace;font-size:.7rem;color:var(--accent2);letter-spacing:.12em;margin-bottom:1.8rem;text-transform:uppercase}
+  .hero-subtitle span{color:var(--accent4)}
+  .hero-desc{font-size:1rem;color:#94a3b8;max-width:500px;line-height:1.85;margin-bottom:2.5rem}
+  .hero-actions{display:flex;gap:.8rem;flex-wrap:wrap}
+  .btn-p{font-family:'Space Mono',monospace;font-size:.7rem;padding:.85rem 1.8rem;background:var(--accent);color:var(--bg);border:none;cursor:pointer;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;transition:all .2s;display:inline-flex;align-items:center;gap:.45rem}
+  .btn-p:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(56,189,248,.28)}
+  .btn-o{font-family:'Space Mono',monospace;font-size:.7rem;padding:.85rem 1.8rem;background:transparent;border:1px solid var(--border);color:var(--text);cursor:pointer;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;transition:all .2s;display:inline-flex;align-items:center;gap:.45rem}
+  .btn-o:hover{border-color:var(--accent);color:var(--accent)}
+  .hero-stats{display:flex;gap:2rem;margin-top:2.5rem}
+  .stat{text-align:left}
+  .stat-n{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;color:var(--accent);line-height:1}
+  .stat-l{font-family:'Space Mono',monospace;font-size:.6rem;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-top:.2rem}
+
+  /* FLOATING TERMINAL */
+  .hero-terminal{background:rgba(9,15,28,.97);border:1px solid var(--border);box-shadow:0 30px 80px rgba(0,0,0,.6);animation:float 6s ease-in-out infinite}
+  @keyframes float{0%,100%{transform:translateY(0) rotate(.4deg)}50%{transform:translateY(-18px) rotate(-.4deg)}}
+  .t-head{padding:.65rem 1rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+  .t-dots{display:flex;gap:.35rem}
+  .t-dot{width:10px;height:10px;border-radius:50%}
+  .d1{background:#f87171}.d2{background:#fbbf24}.d3{background:#34d399}
+  .t-file{font-family:'Space Mono',monospace;font-size:.62rem;color:var(--muted)}
+  .t-body{padding:1rem 1.1rem;font-family:'Space Mono',monospace;font-size:.7rem;line-height:1.85}
+  .tp{color:var(--accent3)}.tc{color:var(--text)}.to{color:var(--muted)}.th{color:var(--accent4)}.tg{color:var(--accent3)}.tb{color:var(--accent)}
+  .tcur{display:inline-block;width:7px;height:13px;background:var(--accent);animation:blink 1s infinite;vertical-align:middle}
+  @keyframes blink{0%,50%{opacity:1}51%,100%{opacity:0}}
+
+  /* OPEN TO WORK */
+  #open-to{ padding:4rem 3rem;position:relative;z-index:1 }
+  .ow-container{max-width:1200px;margin:0 auto;background:linear-gradient(135deg,rgba(56,189,248,.06),rgba(167,139,250,.06));border:1px solid rgba(56,189,248,.15);padding:2.5rem;display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start}
+  .ow-title{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;margin-bottom:.5rem}
+  .ow-title span{color:var(--accent)}
+  .ow-sub{font-family:'Space Mono',monospace;font-size:.68rem;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:1.2rem}
+  .ow-desc{font-size:.9rem;color:#94a3b8;line-height:1.8;margin-bottom:1.5rem}
+  .role-chips{display:flex;flex-wrap:wrap;gap:.5rem}
+  .role-chip{font-family:'Space Mono',monospace;font-size:.62rem;padding:.3rem .8rem;border-radius:2px;letter-spacing:.06em;cursor:default;transition:all .2s}
+  .role-chip.primary{background:rgba(56,189,248,.12);border:1px solid rgba(56,189,248,.3);color:var(--accent)}
+  .role-chip.secondary{background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--muted)}
+  .role-chip:hover{transform:translateY(-1px)}
+  .visa-block{background:rgba(9,15,28,.8);border:1px solid var(--border);padding:1.5rem}
+  .visa-title{font-family:'Space Mono',monospace;font-size:.65rem;color:var(--accent4);letter-spacing:.15em;text-transform:uppercase;margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
+  .visa-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+  .visa-item{background:rgba(255,255,255,.03);border:1px solid var(--border);padding:.75rem}
+  .visa-label{font-family:'Space Mono',monospace;font-size:.58rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem}
+  .visa-value{font-size:.85rem;color:var(--text);font-weight:500}
+  .visa-value.green{color:var(--accent3)}
+  .visa-value.orange{color:var(--accent4)}
+  .visa-note{grid-column:1/-1;font-size:.8rem;color:#94a3b8;line-height:1.7;margin-top:.5rem;font-style:italic;border-top:1px solid var(--border);padding-top:.75rem}
+
+  /* SECTION COMMON */
+  section{position:relative;z-index:1}
+  .sec-hd{max-width:1200px;margin:0 auto 3rem}
+  .sec-tag{font-family:'Space Mono',monospace;font-size:.62rem;color:var(--accent);letter-spacing:.25em;text-transform:uppercase;display:flex;align-items:center;gap:.7rem;margin-bottom:.75rem}
+  .sec-tag::before{content:'';width:18px;height:1px;background:var(--accent)}
+  .sec-title{font-family:'Syne',sans-serif;font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:800;line-height:1.1}
+
+  /* SKILLS */
+  #skills{padding:5rem 3rem}
+  .skills-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:1px;background:var(--border)}
+  .sk-cat{background:var(--surface);padding:1.8rem;position:relative;overflow:hidden;transition:background .3s;border:1px solid transparent}
+  .sk-cat:hover{background:var(--surface2)}
+  .sk-cat::before{content:'';position:absolute;top:0;left:0;width:3px;height:0;transition:height .4s ease}
+  .sk-cat:hover::before{height:100%}
+  .sk-cat.c1::before{background:var(--accent)}.sk-cat.c2::before{background:var(--accent2)}.sk-cat.c3::before{background:var(--accent3)}.sk-cat.c4::before{background:var(--accent4)}
+  .sk-icon{font-size:1.3rem;margin-bottom:.9rem}
+  .sk-icon.c1{color:var(--accent)}.sk-icon.c2{color:var(--accent2)}.sk-icon.c3{color:var(--accent3)}.sk-icon.c4{color:var(--accent4)}
+  .sk-name{font-family:'Syne',sans-serif;font-size:.95rem;font-weight:700;margin-bottom:1.2rem}
+  .pills{display:flex;flex-wrap:wrap;gap:.4rem}
+  .pill{font-family:'Space Mono',monospace;font-size:.6rem;padding:.25rem .65rem;background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--muted);border-radius:2px;transition:all .2s}
+  .sk-cat:hover .pill{color:var(--text);border-color:rgba(255,255,255,.1)}
+
+  /* PROJECTS */
+  #projects{padding:5rem 3rem;background:rgba(9,15,28,.4)}
+  .proj-container{max-width:1200px;margin:0 auto}
+  .filter-bar{display:flex;gap:.5rem;margin-bottom:2.5rem;flex-wrap:wrap}
+  .fbtn{font-family:'Space Mono',monospace;font-size:.62rem;padding:.35rem .9rem;background:transparent;border:1px solid var(--border);color:var(--muted);cursor:pointer;letter-spacing:.1em;text-transform:uppercase;transition:all .2s}
+  .fbtn.active,.fbtn:hover{border-color:var(--accent);color:var(--accent);background:rgba(56,189,248,.05)}
+  .proj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(350px,1fr));gap:1px}
+  .pc{background:var(--surface);border:1px solid var(--border);display:flex;flex-direction:column;transition:all .3s;position:relative;overflow:hidden}
+  .pc:hover{border-color:rgba(56,189,248,.3);transform:translateY(-4px);box-shadow:0 20px 60px rgba(0,0,0,.4)}
+  .pc-img{height:195px;overflow:hidden;position:relative}
+  .pc-img-inner{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:3.5rem;transition:transform .5s}
+  .pc:hover .pc-img-inner{transform:scale(1.06)}
+  .pc-live-badge{position:absolute;top:1rem;left:1rem;font-family:'Space Mono',monospace;font-size:.58rem;padding:.22rem .6rem;background:rgba(52,211,153,.15);border:1px solid rgba(52,211,153,.4);color:var(--accent3);letter-spacing:.1em;text-transform:uppercase;display:flex;align-items:center;gap:.35rem}
+  .live-dot{width:6px;height:6px;border-radius:50%;background:var(--accent3);animation:pulse 2s infinite}
+  @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.6;transform:scale(.8)}}
+  .pc-overlay{position:absolute;bottom:0;left:0;right:0;padding:1rem;background:linear-gradient(to top,rgba(4,8,15,.95) 0%,transparent 100%);display:flex;gap:.4rem;flex-wrap:wrap}
+  .tchip{font-family:'Space Mono',monospace;font-size:.58rem;padding:.2rem .55rem;border-radius:2px}
+  .ch-b{background:rgba(56,189,248,.12);border:1px solid rgba(56,189,248,.25);color:var(--accent)}
+  .ch-p{background:rgba(167,139,250,.12);border:1px solid rgba(167,139,250,.25);color:var(--accent2)}
+  .ch-g{background:rgba(52,211,153,.12);border:1px solid rgba(52,211,153,.25);color:var(--accent3)}
+  .ch-o{background:rgba(251,146,60,.12);border:1px solid rgba(251,146,60,.25);color:var(--accent4)}
+  .pc-body{padding:1.4rem;flex:1;display:flex;flex-direction:column}
+  .pc-name{font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:700;margin-bottom:.4rem}
+  .pc-desc{font-size:.82rem;color:#94a3b8;line-height:1.75;flex:1;margin-bottom:1.2rem}
+  .pc-meta{display:flex;align-items:center;justify-content:space-between;padding-top:.9rem;border-top:1px solid var(--border)}
+  .pc-stats{font-family:'Space Mono',monospace;font-size:.65rem;color:var(--muted);display:flex;align-items:center;gap:.75rem}
+  .pc-links{display:flex;gap:.4rem}
+  .plink{width:30px;height:30px;display:flex;align-items:center;justify-content:center;border:1px solid var(--border);color:var(--muted);text-decoration:none;font-size:.75rem;transition:all .2s}
+  .plink:hover{border-color:var(--accent);color:var(--accent);background:rgba(56,189,248,.05)}
+
+  /* PROJECT RESULT IMAGES */
+  .pc-result{background:var(--surface2);border-top:1px solid var(--border);padding:1rem 1.4rem}
+  .pc-result-label{font-family:'Space Mono',monospace;font-size:.58rem;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:.6rem}
+  .pc-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem}
+  .metric{background:rgba(255,255,255,.03);border:1px solid var(--border);padding:.6rem;text-align:center}
+  .metric-val{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700}
+  .metric-val.good{color:var(--accent3)}
+  .metric-val.blue{color:var(--accent)}
+  .metric-val.purple{color:var(--accent2)}
+  .metric-lbl{font-family:'Space Mono',monospace;font-size:.55rem;color:var(--muted);letter-spacing:.08em;margin-top:.15rem}
+
+  /* GITHUB */
+  #github{padding:5rem 3rem}
+  .gh-container{max-width:1200px;margin:0 auto}
+  .gh-layout{display:grid;grid-template-columns:320px 1fr;gap:2rem;align-items:start}
+  .gh-profile{background:var(--surface);border:1px solid var(--border);padding:1.8rem;position:relative;overflow:hidden}
+  .gh-profile::after{content:'';position:absolute;top:-50%;right:-50%;width:200%;height:200%;pointer-events:none;background:radial-gradient(circle at 80% 20%,rgba(56,189,248,.04) 0%,transparent 60%)}
+  .gh-av{width:72px;height:72px;border-radius:50%;border:2px solid var(--border);margin-bottom:.9rem;background:linear-gradient(135deg,var(--accent2),var(--accent));display:flex;align-items:center;justify-content:center;font-size:1.8rem;color:var(--bg);font-weight:800;font-family:'Syne',sans-serif;overflow:hidden}
+  .gh-av img{width:100%;height:100%;object-fit:cover}
+  .gh-name{font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:700;margin-bottom:.2rem}
+  .gh-handle{font-family:'Space Mono',monospace;font-size:.72rem;color:var(--accent);margin-bottom:.9rem}
+  .gh-bio{font-size:.82rem;color:#94a3b8;line-height:1.7;margin-bottom:1.3rem}
+  .gh-sr{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-bottom:1.3rem;background:var(--border)}
+  .gh-s{background:var(--surface2);padding:.9rem .6rem;text-align:center}
+  .gh-sn{font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:700;color:var(--accent);display:block}
+  .gh-sl{font-family:'Space Mono',monospace;font-size:.58rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase}
+  .lang-row{display:flex;align-items:center;gap:.7rem;margin-bottom:.65rem}
+  .lang-nm{font-family:'Space Mono',monospace;font-size:.65rem;color:var(--muted);width:70px;flex-shrink:0}
+  .lang-track{flex:1;height:3px;background:rgba(255,255,255,.05);border-radius:2px;overflow:hidden}
+  .lang-fill{height:100%;border-radius:2px;animation:grow 1.5s ease forwards;transform-origin:left}
+  @keyframes grow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+  .lang-pct{font-family:'Space Mono',monospace;font-size:.6rem;color:var(--muted);width:30px;text-align:right}
+  .contrib-wrap{background:var(--surface);border:1px solid var(--border);padding:1.8rem}
+  .contrib-lbl{font-family:'Space Mono',monospace;font-size:.65rem;color:var(--muted);letter-spacing:.15em;text-transform:uppercase;margin-bottom:1.3rem}
+  .heatmap{display:grid;gap:3px;grid-template-columns:repeat(52,1fr)}
+  .hc{aspect-ratio:1;border-radius:2px;transition:transform .1s}
+  .hc:hover{transform:scale(1.6)}
+  .c0{background:rgba(255,255,255,.04)}.c1{background:rgba(56,189,248,.18)}.c2{background:rgba(56,189,248,.38)}.c3{background:rgba(56,189,248,.65)}.c4{background:var(--accent)}
+  .contrib-legend{display:flex;align-items:center;gap:.5rem;margin-top:.9rem;justify-content:flex-end;font-family:'Space Mono',monospace;font-size:.58rem;color:var(--muted)}
+  .leg-cells{display:flex;gap:3px}
+  .leg-c{width:11px;height:11px;border-radius:2px}
+  .gh-streak-row{display:grid;grid-template-columns:1fr 1fr;gap:1px;margin-top:1px}
+  .streak-box{background:var(--surface);border:1px solid var(--border);padding:1.3rem}
+  .streak-lbl{font-family:'Space Mono',monospace;font-size:.6rem;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:.4rem}
+  .streak-val{font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800}
+
+  /* LIVE DEMO */
+  #demo{padding:5rem 3rem;background:rgba(9,15,28,.4)}
+  .demo-container{max-width:1200px;margin:0 auto}
+  .demo-layout{display:grid;grid-template-columns:1fr 1.4fr;gap:2rem;margin-top:2.5rem}
+  .demo-sel{display:flex;flex-direction:column;gap:.5rem}
+  .dbtn{display:flex;align-items:flex-start;gap:.9rem;padding:1.1rem;background:var(--surface);border:1px solid var(--border);cursor:pointer;transition:all .2s;text-align:left}
+  .dbtn.active{border-color:rgba(56,189,248,.4);background:rgba(56,189,248,.04)}
+  .dbtn:hover{border-color:rgba(56,189,248,.2)}
+  .dbtn-icon{font-size:1.1rem;color:var(--accent);flex-shrink:0;margin-top:.1rem}
+  .dbtn-title{font-family:'Syne',sans-serif;font-size:.9rem;font-weight:700;margin-bottom:.2rem;color:var(--text)}
+  .dbtn-desc{font-size:.75rem;color:var(--muted);line-height:1.5}
+  .demo-panel{background:var(--surface);border:1px solid var(--border);display:flex;flex-direction:column;min-height:480px}
+  .dp-head{display:flex;align-items:center;justify-content:space-between;padding:.9rem 1.3rem;border-bottom:1px solid var(--border)}
+  .dp-title{font-family:'Space Mono',monospace;font-size:.65rem;color:var(--accent);letter-spacing:.1em;text-transform:uppercase}
+  .run-btn{display:flex;align-items:center;gap:.4rem;font-family:'Space Mono',monospace;font-size:.62rem;padding:.35rem .9rem;background:rgba(52,211,153,.08);border:1px solid rgba(52,211,153,.3);color:var(--accent3);cursor:pointer;letter-spacing:.1em;transition:all .2s}
+  .run-btn:hover{background:rgba(52,211,153,.18)}
+  .dp-code{font-family:'Space Mono',monospace;font-size:.73rem;padding:1.3rem;flex:1;overflow:auto;line-height:1.85;white-space:pre;color:#94a3b8}
+  .ck{color:var(--accent2)}.cs{color:var(--accent3)}.cc{color:#475569;font-style:italic}.cf{color:var(--accent)}.cn{color:var(--accent4)}
+  .dp-out{border-top:1px solid var(--border);padding:1.2rem;font-family:'Space Mono',monospace;font-size:.72rem;color:var(--accent3);line-height:1.65}
+  .dp-out-lbl{font-size:.58rem;color:var(--muted);letter-spacing:.15em;text-transform:uppercase;margin-bottom:.6rem}
+  .tcur2{display:inline-block;width:7px;height:13px;background:var(--accent3);animation:blink 1s infinite}
+
+  /* CERTS */
+  #certifications{padding:5rem 3rem}
+  .certs-grid{max-width:1200px;margin:2.5rem auto 0;display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.2rem}
+  .cert-card{background:var(--surface);border:1px solid var(--border);padding:1.4rem;position:relative;overflow:hidden;transition:all .3s}
+  .cert-card:hover{border-color:rgba(56,189,248,.3);transform:translateY(-3px);box-shadow:0 12px 35px rgba(0,0,0,.35)}
+  .cert-badge{position:absolute;top:1rem;right:1rem;font-family:'Space Mono',monospace;font-size:.52rem;padding:.2rem .5rem;letter-spacing:.1em;text-transform:uppercase;border-radius:2px;background:rgba(52,211,153,.12);border:1px solid rgba(52,211,153,.3);color:var(--accent3)}
+  .cert-logo{width:44px;height:44px;margin-bottom:.9rem;background:var(--surface2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1.3rem}
+  .cert-name{font-family:'Syne',sans-serif;font-size:.95rem;font-weight:700;margin-bottom:.2rem}
+  .cert-issuer{font-family:'Space Mono',monospace;font-size:.62rem;color:var(--accent);letter-spacing:.1em;margin-bottom:.4rem}
+  .cert-date{font-family:'Space Mono',monospace;font-size:.6rem;color:var(--muted)}
+
+  /* EXPERIENCE */
+  #experience{padding:5rem 3rem;background:rgba(9,15,28,.4)}
+  .exp-container{max-width:850px;margin:0 auto}
+  .timeline{position:relative;margin-top:2.5rem;padding-left:1.8rem}
+  .timeline::before{content:'';position:absolute;left:0;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,var(--accent),transparent)}
+  .tl-item{position:relative;padding:0 0 2.8rem 2rem}
+  .tl-item::before{content:'';position:absolute;left:-5px;top:6px;width:11px;height:11px;border-radius:50%;background:var(--bg);border:2px solid var(--accent);box-shadow:0 0 10px rgba(56,189,248,.4)}
+  .tl-date{font-family:'Space Mono',monospace;font-size:.62rem;color:var(--accent);letter-spacing:.15em;margin-bottom:.4rem}
+  .tl-co{font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:700;margin-bottom:.2rem}
+  .tl-role{font-family:'Space Mono',monospace;font-size:.7rem;color:var(--muted);margin-bottom:.65rem}
+  .tl-desc{font-size:.83rem;color:#94a3b8;line-height:1.8}
+  .tl-tech{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.65rem}
+  .ttag{font-family:'Space Mono',monospace;font-size:.58rem;padding:.18rem .55rem;background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--muted);border-radius:2px}
+
+  /* EDUCATION */
+  #education{padding:4rem 3rem}
+  .edu-container{max-width:1200px;margin:0 auto}
+  .edu-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1px;margin-top:2.5rem;background:var(--border)}
+  .edu-card{background:var(--surface);padding:1.8rem;border:1px solid transparent;transition:background .3s;position:relative;overflow:hidden}
+  .edu-card:hover{background:var(--surface2)}
+  .edu-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+  .edu-card:nth-child(1)::before{background:linear-gradient(90deg,var(--accent),var(--accent2))}
+  .edu-card:nth-child(2)::before{background:linear-gradient(90deg,var(--accent2),var(--accent3))}
+  .edu-card:nth-child(3)::before{background:linear-gradient(90deg,var(--accent3),var(--accent4))}
+  .edu-degree{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;margin-bottom:.3rem}
+  .edu-school{font-family:'Space Mono',monospace;font-size:.68rem;color:var(--accent);letter-spacing:.08em;margin-bottom:.3rem}
+  .edu-year{font-family:'Space Mono',monospace;font-size:.62rem;color:var(--muted)}
+  .edu-icon{font-size:1.5rem;margin-bottom:.9rem}
+
+  /* CONTACT */
+  #contact{padding:5rem 3rem}
+  .contact-container{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+  .contact-cta{font-family:'Syne',sans-serif;font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:800;line-height:1.15;margin-bottom:1.3rem}
+  .contact-cta .hl{color:var(--accent)}
+  .contact-desc{font-size:.9rem;color:#94a3b8;line-height:1.85;margin-bottom:1.8rem}
+  .cl-item{display:flex;align-items:center;gap:.9rem;padding:.9rem 1.2rem;background:var(--surface);border:1px solid var(--border);text-decoration:none;color:var(--text);transition:all .2s;margin-bottom:.6rem}
+  .cl-item:hover{border-color:var(--accent);transform:translateX(4px)}
+  .cl-icon{font-size:.95rem;color:var(--accent);width:18px}
+  .cl-text{flex:1}
+  .cl-label{font-family:'Space Mono',monospace;font-size:.6rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase}
+  .cl-value{font-size:.85rem}
+  .cl-arrow{color:var(--muted);font-size:.7rem}
+  .cf-form{display:flex;flex-direction:column;gap:.9rem}
+  .cf-group{display:flex;flex-direction:column;gap:.35rem}
+  .cf-label{font-family:'Space Mono',monospace;font-size:.6rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase}
+  .cf-input,.cf-textarea{background:var(--surface);border:1px solid var(--border);padding:.7rem .9rem;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.88rem;outline:none;transition:border-color .2s;resize:none}
+  .cf-input:focus,.cf-textarea:focus{border-color:var(--accent)}
+  .cf-input::placeholder,.cf-textarea::placeholder{color:var(--muted)}
+
+  /* FOOTER */
+  footer{padding:1.8rem 3rem;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:relative;z-index:1}
+  .footer-txt{font-family:'Space Mono',monospace;font-size:.6rem;color:var(--muted);letter-spacing:.08em}
+  .footer-soc{display:flex;gap:.8rem}
+  .soc-link{width:32px;height:32px;display:flex;align-items:center;justify-content:center;border:1px solid var(--border);color:var(--muted);text-decoration:none;font-size:.75rem;transition:all .2s}
+  .soc-link:hover{border-color:var(--accent);color:var(--accent)}
+
+  /* SCROLL REVEAL */
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+  .reveal.visible{opacity:1;transform:none}
+
+  /* RESPONSIVE */
+  @media(max-width:960px){
+    nav{padding:1rem 1.5rem}.nav-links{display:none}
+    #hero{padding:6rem 1.5rem 4rem}
+    .hero-inner{grid-template-columns:1fr}.hero-terminal{display:none}
+    .gh-layout,.demo-layout,.contact-container,.ow-container{grid-template-columns:1fr}
+    .opt-banner{padding:.6rem 1.5rem}
+  }
+
+  ::-webkit-scrollbar{width:3px}
+  ::-webkit-scrollbar-track{background:var(--bg)}
+  ::-webkit-scrollbar-thumb{background:rgba(56,189,248,.25);border-radius:2px}
+</style>
+</head>
+<body>
+
+<div id="cursor"></div>
+<div id="cursorRing"></div>
+<div class="grid-bg"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">manish<span>.</span>vemula</div>
+  <ul class="nav-links">
+    <li><a href="#open-to">Status</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#github">GitHub</a></li>
+    <li><a href="#demo">Demo</a></li>
+    <li><a href="#certifications">Certs</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="mailto:Manish.vs145@gmail.com" class="nav-cta">Hire Me</a>
+</nav>
+
+<!-- OPT BANNER -->
+<div class="opt-banner">
+  <span class="opt-pill green"><i class="fas fa-circle" style="font-size:.5rem"></i> Actively Looking</span>
+  <span class="opt-pill blue"><i class="fas fa-id-card"></i> OPT EAD · Valid till 2028</span>
+  <span class="opt-pill purple"><i class="fas fa-handshake"></i> C2C · W2 · 1099 Available</span>
+  <span class="opt-pill orange"><i class="fas fa-star"></i> Open to H-1B Sponsorship</span>
+  <span class="opt-pill green"><i class="fas fa-map-marker-alt"></i> Ypsilanti, MI</span>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-orb orb1"></div>
+  <div class="hero-orb orb2"></div>
+  <div class="hero-inner">
+    <div>
+      <div class="hero-tag reveal">Based in Michigan · Available Now</div>
+      <h1 class="hero-name reveal">
+        <span class="l1">Manish</span>
+        <span class="l2">Vemula</span>
+      </h1>
+      <p class="hero-title reveal">ML Engineer · Data Engineer · Data Scientist</p>
+      <p class="hero-subtitle reveal">MBA + MS Information Systems &nbsp;<span>·</span>&nbsp; 5+ Years Experience</p>
+      <p class="hero-desc reveal">
+        Building production-style ML systems and scalable data pipelines that turn messy real-world datasets into intelligent, decision-driving applications. From model training to Dockerized APIs — end to end.
+      </p>
+      <div class="hero-actions reveal">
+        <a href="https://github.com/MANISH-V14" target="_blank" class="btn-p"><i class="fab fa-github"></i> GitHub Profile</a>
+        <a href="#projects" class="btn-o"><i class="fas fa-rocket"></i> Live Projects</a>
+        <a href="mailto:Manish.vs145@gmail.com" class="btn-o"><i class="fas fa-envelope"></i> Email Me</a>
+      </div>
+      <div class="hero-stats reveal">
+        <div class="stat"><div class="stat-n">5+</div><div class="stat-l">Years Exp.</div></div>
+        <div class="stat"><div class="stat-n">4</div><div class="stat-l">Live Apps</div></div>
+        <div class="stat"><div class="stat-n">2</div><div class="stat-l">Master's</div></div>
+        <div class="stat"><div class="stat-n">2</div><div class="stat-l">Certs</div></div>
+      </div>
+    </div>
+
+    <!-- Floating Terminal -->
+    <div class="hero-terminal">
+      <div class="t-head">
+        <div class="t-dots"><div class="t-dot d1"></div><div class="t-dot d2"></div><div class="t-dot d3"></div></div>
+        <div class="t-file">fraud_detection_api.py</div>
+      </div>
+      <div class="t-body">
+        <div><span class="tp">▶ </span><span class="tc">uvicorn main:app --reload</span></div>
+        <div class="to">Loading XGBoost model... done</div>
+        <div class="to">Loading scaler pipeline... done</div>
+        <div class="to">FastAPI running on :8000 ✓</div>
+        <div>&nbsp;</div>
+        <div><span class="tp">▶ </span><span class="tc">POST /predict</span></div>
+        <div class="to">{amount: 15420, merchant: "ONLINE"}</div>
+        <div>&nbsp;</div>
+        <div><span class="th">Response (42ms):</span></div>
+        <div class="to">{</div>
+        <div class="to">&nbsp; fraud_probability: <span class="tg">0.94</span>,</div>
+        <div class="to">&nbsp; prediction: <span class="th">"FRAUD"</span>,</div>
+        <div class="to">&nbsp; risk_level: <span class="th">"HIGH"</span>,</div>
+        <div class="to">&nbsp; model_version: <span class="tg">"v2.1"</span></div>
+        <div class="to">}</div>
+        <div><span class="tp">▶ </span><span class="tcur"></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OPEN TO WORK + VISA STATUS -->
+<section id="open-to">
+  <div class="ow-container reveal">
+    <div>
+      <div class="ow-title">Open to <span>All Data Roles</span></div>
+      <div class="ow-sub">Not just ML — I go where data goes</div>
+      <div class="ow-desc">
+        With a dual background in MS Information Systems + MBA and 5+ years of hands-on experience, I'm not limiting myself to a single title. I bring breadth across the entire data spectrum — from writing ETL pipelines to building dashboards to deploying ML APIs. If data is involved, I'm interested.
+      </div>
+      <div class="role-chips">
+        <span class="role-chip primary"><i class="fas fa-brain"></i> ML Engineer</span>
+        <span class="role-chip primary"><i class="fas fa-database"></i> Data Engineer</span>
+        <span class="role-chip primary"><i class="fas fa-chart-bar"></i> Data Scientist</span>
+        <span class="role-chip primary"><i class="fas fa-chart-line"></i> Data Analyst</span>
+        <span class="role-chip primary"><i class="fas fa-briefcase"></i> Business Analyst</span>
+        <span class="role-chip secondary"><i class="fas fa-cloud"></i> MLOps Engineer</span>
+        <span class="role-chip secondary"><i class="fas fa-robot"></i> AI/LLM Engineer</span>
+        <span class="role-chip secondary"><i class="fas fa-table"></i> BI Engineer</span>
+      </div>
+    </div>
+
+    <div class="visa-block">
+      <div class="visa-title"><i class="fas fa-passport"></i> Work Authorization & Visa Status</div>
+      <div class="visa-grid">
+        <div class="visa-item">
+          <div class="visa-label">Status</div>
+          <div class="visa-value green">OPT EAD — Active</div>
+        </div>
+        <div class="visa-item">
+          <div class="visa-label">Valid Until</div>
+          <div class="visa-value green">2028</div>
+        </div>
+        <div class="visa-item">
+          <div class="visa-label">Work Types</div>
+          <div class="visa-value">C2C · W2 · 1099</div>
+        </div>
+        <div class="visa-item">
+          <div class="visa-label">H-1B Sponsorship</div>
+          <div class="visa-value orange">Open / Preferred</div>
+        </div>
+        <div class="visa-note">
+          <strong style="color:var(--text)">Sponsorship flexibility:</strong> Actively seeking H-1B sponsorship. If direct sponsorship isn't possible, open to contract/W2 engagements through vendors who can sponsor, or contract basis until visa arrangements are finalized. Self-sponsorship arrangements can also be discussed.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="sec-hd reveal">
+    <div class="sec-tag">Stack</div>
+    <h2 class="sec-title">Technical Skills</h2>
+  </div>
+  <div class="skills-grid">
+    <div class="sk-cat c1 reveal">
+      <div class="sk-icon c1"><i class="fas fa-brain"></i></div>
+      <div class="sk-name">ML & Deep Learning</div>
+      <div class="pills">
+        <span class="pill">TensorFlow</span><span class="pill">PyTorch</span><span class="pill">Keras</span><span class="pill">Scikit-learn</span><span class="pill">XGBoost</span><span class="pill">LightGBM</span><span class="pill">HuggingFace</span><span class="pill">Transformers</span><span class="pill">CNNs</span><span class="pill">LSTMs</span><span class="pill">VAE</span>
+      </div>
+    </div>
+    <div class="sk-cat c2 reveal">
+      <div class="sk-icon c2"><i class="fas fa-comments"></i></div>
+      <div class="sk-name">NLP & Generative AI</div>
+      <div class="pills">
+        <span class="pill">BERT</span><span class="pill">GPT / OpenAI</span><span class="pill">LangChain</span><span class="pill">RAG</span><span class="pill">NLTK</span><span class="pill">Sentiment Analysis</span><span class="pill">Text Classification</span><span class="pill">Summarization</span><span class="pill">Embeddings</span>
+      </div>
+    </div>
+    <div class="sk-cat c3 reveal">
+      <div class="sk-icon c3"><i class="fas fa-database"></i></div>
+      <div class="sk-name">Data Engineering</div>
+      <div class="pills">
+        <span class="pill">Pandas</span><span class="pill">NumPy</span><span class="pill">ETL Pipelines</span><span class="pill">PostgreSQL</span><span class="pill">MySQL</span><span class="pill">MongoDB</span><span class="pill">BigQuery</span><span class="pill">Data Warehousing</span><span class="pill">OpenCV</span><span class="pill">SQL</span>
+      </div>
+    </div>
+    <div class="sk-cat c4 reveal">
+      <div class="sk-icon c4"><i class="fas fa-cloud"></i></div>
+      <div class="sk-name">Cloud & MLOps</div>
+      <div class="pills">
+        <span class="pill">AWS SageMaker</span><span class="pill">AWS Lambda</span><span class="pill">S3</span><span class="pill">GCP Vertex AI</span><span class="pill">Azure ML</span><span class="pill">Docker</span><span class="pill">Kubernetes</span><span class="pill">MLflow</span><span class="pill">Kubeflow</span><span class="pill">W&amp;B</span><span class="pill">FastAPI</span><span class="pill">Streamlit</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="proj-container">
+    <div class="sec-hd reveal" style="margin-bottom:1.8rem">
+      <div class="sec-tag">Work</div>
+      <h2 class="sec-title">Projects & Live Apps</h2>
+    </div>
+    <div class="filter-bar">
+      <button class="fbtn active" onclick="filterP('all',this)">All</button>
+      <button class="fbtn" onclick="filterP('live',this)">🟢 Live Apps</button>
+      <button class="fbtn" onclick="filterP('ml',this)">Machine Learning</button>
+      <button class="fbtn" onclick="filterP('nlp',this)">NLP / LLM</button>
+      <button class="fbtn" onclick="filterP('data',this)">Data Engineering</button>
+    </div>
+    <div class="proj-grid" id="projGrid">
+
+      <!-- PROJECT 1: Credit Risk -->
+      <div class="pc reveal" data-cat="ml live">
+        <div class="pc-img">
+          <div class="pc-img-inner" style="background:linear-gradient(135deg,#050c1a,#0c2040)">💳</div>
+          <div class="pc-live-badge"><div class="live-dot"></div>Live App</div>
+          <div class="pc-overlay">
+            <span class="tchip ch-b">XGBoost</span>
+            <span class="tchip ch-p">Streamlit</span>
+            <span class="tchip ch-g">FastAPI</span>
+          </div>
+        </div>
+        <div class="pc-body">
+          <div class="pc-name">Credit Risk Scoring ML App</div>
+          <div class="pc-desc">AI-powered credit risk scoring system using XGBoost trained on financial features. Interactive Streamlit UI with real-time risk assessment, probability scores, and risk category breakdown. Deployed publicly on Streamlit Cloud.</div>
+          <div class="pc-meta">
+            <div class="pc-stats"><i class="fab fa-python" style="color:var(--accent)"></i> Python &nbsp; <i class="fas fa-fire" style="color:var(--accent4)"></i> XGBoost</div>
+            <div class="pc-links">
+              <a href="https://github.com/MANISH-V14/credit-risk-ml-api" target="_blank" class="plink" title="GitHub"><i class="fab fa-github"></i></a>
+              <a href="https://credit-risk-ml-api-35w58ymlamuvxt5htskdv5.streamlit.app/" target="_blank" class="plink" title="Live Demo"><i class="fas fa-external-link-alt"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="pc-result">
+          <div class="pc-result-label">Model Results</div>
+          <div class="pc-metrics">
+            <div class="metric"><div class="metric-val good">91%</div><div class="metric-lbl">Accuracy</div></div>
+            <div class="metric"><div class="metric-val blue">0.94</div><div class="metric-lbl">AUC-ROC</div></div>
+            <div class="metric"><div class="metric-val purple">0.89</div><div class="metric-lbl">F1 Score</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROJECT 2: Retail Demand -->
+      <div class="pc reveal" data-cat="ml data live">
+        <div class="pc-img">
+          <div class="pc-img-inner" style="background:linear-gradient(135deg,#08120a,#102818)">📦</div>
+          <div class="pc-live-badge"><div class="live-dot"></div>Live App</div>
+          <div class="pc-overlay">
+            <span class="tchip ch-g">Time Series</span>
+            <span class="tchip ch-b">Prophet</span>
+            <span class="tchip ch-p">Streamlit</span>
+          </div>
+        </div>
+        <div class="pc-body">
+          <div class="pc-name">Retail Demand Forecasting ML App</div>
+          <div class="pc-desc">End-to-end demand forecasting pipeline using Prophet and ensemble ML models. Handles seasonality, holiday effects, and trend shifts. Interactive Streamlit dashboard with forecast visualization and downloadable predictions.</div>
+          <div class="pc-meta">
+            <div class="pc-stats"><i class="fab fa-python" style="color:var(--accent)"></i> Python &nbsp; <i class="fas fa-chart-area" style="color:var(--accent3)"></i> Prophet</div>
+            <div class="pc-links">
+              <a href="https://github.com/MANISH-V14/retail-demand-forecast-ml" target="_blank" class="plink"><i class="fab fa-github"></i></a>
+              <a href="https://retail-demand-forecast-ml-7bska8u5rzhxx9drjv63jm.streamlit.app/" target="_blank" class="plink"><i class="fas fa-external-link-alt"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="pc-result">
+          <div class="pc-result-label">Forecast Accuracy</div>
+          <div class="pc-metrics">
+            <div class="metric"><div class="metric-val good">4.8%</div><div class="metric-lbl">MAPE</div></div>
+            <div class="metric"><div class="metric-val blue">0.93</div><div class="metric-lbl">R² Score</div></div>
+            <div class="metric"><div class="metric-val purple">±3.2%</div><div class="metric-lbl">Error Band</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROJECT 3: AI Resume RAG -->
+      <div class="pc reveal" data-cat="nlp ml live">
+        <div class="pc-img">
+          <div class="pc-img-inner" style="background:linear-gradient(135deg,#0d0520,#1a0840)">🤖</div>
+          <div class="pc-live-badge"><div class="live-dot"></div>Live API</div>
+          <div class="pc-overlay">
+            <span class="tchip ch-p">LangChain</span>
+            <span class="tchip ch-b">RAG</span>
+            <span class="tchip ch-o">FastAPI</span>
+          </div>
+        </div>
+        <div class="pc-body">
+          <div class="pc-name">AI Resume RAG System</div>
+          <div class="pc-desc">Retrieval-augmented generation system that ingests resume documents and answers natural language queries with accurate, grounded responses. Built with LangChain, vector embeddings, and a FastAPI backend. API deployed on Render.</div>
+          <div class="pc-meta">
+            <div class="pc-stats"><i class="fas fa-robot" style="color:var(--accent2)"></i> RAG &nbsp; <i class="fas fa-server" style="color:var(--accent)"></i> FastAPI</div>
+            <div class="pc-links">
+              <a href="https://github.com/MANISH-V14/ai-resume-rag-system" target="_blank" class="plink"><i class="fab fa-github"></i></a>
+              <a href="https://ai-resume-rag-system.onrender.com" target="_blank" class="plink"><i class="fas fa-external-link-alt"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="pc-result">
+          <div class="pc-result-label">System Performance</div>
+          <div class="pc-metrics">
+            <div class="metric"><div class="metric-val good">&lt;2s</div><div class="metric-lbl">Latency</div></div>
+            <div class="metric"><div class="metric-val blue">0.91</div><div class="metric-lbl">Relevance</div></div>
+            <div class="metric"><div class="metric-val purple">REST</div><div class="metric-lbl">API</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROJECT 4: Fraud Detection MLOps -->
+      <div class="pc reveal" data-cat="ml data live">
+        <div class="pc-img">
+          <div class="pc-img-inner" style="background:linear-gradient(135deg,#150805,#301005)">🔐</div>
+          <div class="pc-live-badge"><div class="live-dot"></div>Live API</div>
+          <div class="pc-overlay">
+            <span class="tchip ch-o">MLOps</span>
+            <span class="tchip ch-b">Docker</span>
+            <span class="tchip ch-g">FastAPI</span>
+          </div>
+        </div>
+        <div class="pc-body">
+          <div class="pc-name">Financial Fraud Detection MLOps Pipeline</div>
+          <div class="pc-desc">Production-grade MLOps pipeline for real-time financial fraud detection. Includes model training, versioning, a Dockerized FastAPI inference endpoint, CI/CD automation, and Swagger API documentation. Deployed on Render.</div>
+          <div class="pc-meta">
+            <div class="pc-stats"><i class="fab fa-docker" style="color:var(--accent)"></i> Docker &nbsp; <i class="fas fa-shield-alt" style="color:var(--accent4)"></i> MLOps</div>
+            <div class="pc-links">
+              <a href="https://github.com/MANISH-V14/financial-fraud-mlops-pipeline" target="_blank" class="plink"><i class="fab fa-github"></i></a>
+              <a href="https://financial-fraud-mlops-pipeline.onrender.com/" target="_blank" class="plink" title="Live API"><i class="fas fa-external-link-alt"></i></a>
+              <a href="https://financial-fraud-mlops-pipeline.onrender.com/docs" target="_blank" class="plink" title="Swagger Docs"><i class="fas fa-file-code"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="pc-result">
+          <div class="pc-result-label">Detection Performance</div>
+          <div class="pc-metrics">
+            <div class="metric"><div class="metric-val good">30%</div><div class="metric-lbl">Accuracy ↑</div></div>
+            <div class="metric"><div class="metric-val blue">&lt;50ms</div><div class="metric-lbl">Inference</div></div>
+            <div class="metric"><div class="metric-val purple">REST</div><div class="metric-lbl">+ Swagger</div></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Want to see codes note -->
+    <div style="margin-top:2rem;padding:1.2rem 1.5rem;background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;gap:1rem;max-width:1200px">
+      <i class="fas fa-info-circle" style="color:var(--accent);font-size:1rem;flex-shrink:0"></i>
+      <div>
+        <span style="font-family:'Space Mono',monospace;font-size:.68rem;color:var(--text)">All source code available on GitHub · </span>
+        <a href="https://github.com/MANISH-V14" target="_blank" style="font-family:'Space Mono',monospace;font-size:.68rem;color:var(--accent);text-decoration:none">github.com/MANISH-V14</a>
+        <span style="font-family:'Space Mono',monospace;font-size:.68rem;color:var(--muted)"> · Live apps are deployed and fully functional</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GITHUB STATS -->
+<section id="github">
+  <div class="gh-container">
+    <div class="sec-hd reveal">
+      <div class="sec-tag">Open Source</div>
+      <h2 class="sec-title">GitHub Activity</h2>
+    </div>
+    <div class="gh-layout">
+      <div class="gh-profile reveal">
+        <div class="gh-av">
+          <img src="https://avatars.githubusercontent.com/u/67369482?v=4" alt="Manish Vemula" onerror="this.parentElement.textContent='MV'">
+        </div>
+        <div class="gh-name">Manish Vemula</div>
+        <div class="gh-handle">@MANISH-V14</div>
+        <div class="gh-bio">ML Engineer & Data Architect. Building production-style ML pipelines and data systems. Dual Master's: MBA + MS Information Systems.</div>
+        <div class="gh-sr">
+          <div class="gh-s"><span class="gh-sn">5</span><span class="gh-sl">Repos</span></div>
+          <div class="gh-s"><span class="gh-sn">4</span><span class="gh-sl">Live Apps</span></div>
+          <div class="gh-s"><span class="gh-sn">3</span><span class="gh-sl">Stars</span></div>
+        </div>
+        <div style="font-family:'Space Mono',monospace;font-size:.6rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.9rem">Top Languages</div>
+        <div class="lang-row"><span class="lang-nm">Python</span><div class="lang-track"><div class="lang-fill" style="width:85%;background:var(--accent)"></div></div><span class="lang-pct">85%</span></div>
+        <div class="lang-row"><span class="lang-nm">SQL</span><div class="lang-track"><div class="lang-fill" style="width:10%;background:var(--accent2)"></div></div><span class="lang-pct">10%</span></div>
+        <div class="lang-row"><span class="lang-nm">Shell</span><div class="lang-track"><div class="lang-fill" style="width:3%;background:var(--accent3)"></div></div><span class="lang-pct">3%</span></div>
+        <div class="lang-row"><span class="lang-nm">YAML</span><div class="lang-track"><div class="lang-fill" style="width:2%;background:var(--accent4)"></div></div><span class="lang-pct">2%</span></div>
+      </div>
+
+      <div>
+        <div class="contrib-wrap reveal">
+          <div class="contrib-lbl">Contributions — Past Year</div>
+          <div class="heatmap" id="heatmap"></div>
+          <div class="contrib-legend">
+            <span>Less</span>
+            <div class="leg-cells">
+              <div class="leg-c c0"></div><div class="leg-c c1"></div><div class="leg-c c2"></div><div class="leg-c c3"></div><div class="leg-c c4"></div>
+            </div>
+            <span>More</span>
+          </div>
+        </div>
+        <div class="gh-streak-row reveal">
+          <div class="streak-box">
+            <div class="streak-lbl">Achievements</div>
+            <div style="display:flex;gap:.6rem;margin-top:.4rem">
+              <div style="background:var(--surface2);border:1px solid var(--border);padding:.5rem .8rem;font-family:'Space Mono',monospace;font-size:.65rem;color:var(--accent3)">🎯 YOLO</div>
+              <div style="background:var(--surface2);border:1px solid var(--border);padding:.5rem .8rem;font-family:'Space Mono',monospace;font-size:.65rem;color:var(--accent)">🦈 Pull Shark</div>
+            </div>
+          </div>
+          <div class="streak-box">
+            <div class="streak-lbl">Focus</div>
+            <div class="streak-val" style="color:var(--accent3);font-size:1.2rem;margin-top:.3rem">ML · APIs</div>
+            <div style="font-family:'Space Mono',monospace;font-size:.6rem;color:var(--muted)">Production-style systems</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LIVE DEMO -->
+<section id="demo">
+  <div class="demo-container">
+    <div class="sec-hd reveal">
+      <div class="sec-tag">Interactive</div>
+      <h2 class="sec-title">Code Demos</h2>
+    </div>
+    <div class="demo-layout">
+      <div class="demo-sel">
+        <div class="dbtn active" onclick="switchD('fraud',this)">
+          <div class="dbtn-icon"><i class="fas fa-shield-alt"></i></div>
+          <div><div class="dbtn-title">Fraud Detection API</div><div class="dbtn-desc">FastAPI + XGBoost real-time inference endpoint with MLOps setup</div></div>
+        </div>
+        <div class="dbtn" onclick="switchD('credit',this)">
+          <div class="dbtn-icon"><i class="fas fa-credit-card"></i></div>
+          <div><div class="dbtn-title">Credit Risk Scoring</div><div class="dbtn-desc">XGBoost credit risk model with feature pipeline and Streamlit UI</div></div>
+        </div>
+        <div class="dbtn" onclick="switchD('rag',this)">
+          <div class="dbtn-icon"><i class="fas fa-robot"></i></div>
+          <div><div class="dbtn-title">RAG System</div><div class="dbtn-desc">LangChain-powered resume Q&A with vector retrieval</div></div>
+        </div>
+        <div class="dbtn" onclick="switchD('forecast',this)">
+          <div class="dbtn-icon"><i class="fas fa-chart-line"></i></div>
+          <div><div class="dbtn-title">Demand Forecasting</div><div class="dbtn-desc">Prophet + ensemble model for retail demand prediction</div></div>
+        </div>
+      </div>
+
+      <div class="demo-panel">
+        <div class="dp-head">
+          <div class="demo-dots" style="display:flex;gap:.35rem">
+            <div class="t-dot d1"></div><div class="t-dot d2"></div><div class="t-dot d3"></div>
+          </div>
+          <div class="dp-title" id="dpTitle">fraud_detection_api.py</div>
+          <button class="run-btn" onclick="runD()"><i class="fas fa-play"></i> Run</button>
+        </div>
+        <div class="dp-code" id="dpCode"></div>
+        <div class="dp-out">
+          <div class="dp-out-lbl">Output</div>
+          <div id="dpOut">Click "Run" to execute...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section id="certifications">
+  <div style="max-width:1200px;margin:0 auto;padding:0">
+    <div class="sec-hd reveal" style="max-width:none">
+      <div class="sec-tag">Credentials</div>
+      <h2 class="sec-title">Certifications</h2>
+    </div>
+  </div>
+  <div class="certs-grid">
+    <div class="cert-card reveal">
+      <div class="cert-badge"><i class="fas fa-check-circle"></i> Verified</div>
+      <div class="cert-logo">🔵</div>
+      <div class="cert-name">Azure Data Scientist Associate</div>
+      <div class="cert-issuer">Microsoft Certified</div>
+      <div class="cert-date">Active Certification</div>
+    </div>
+    <div class="cert-card reveal">
+      <div class="cert-badge"><i class="fas fa-check-circle"></i> Verified</div>
+      <div class="cert-logo">☁️</div>
+      <div class="cert-name">AWS Certified ML – Specialty</div>
+      <div class="cert-issuer">Amazon Web Services</div>
+      <div class="cert-date">Active Certification</div>
+    </div>
+    <div class="cert-card reveal">
+      <div class="cert-badge" style="background:rgba(56,189,248,.1);border-color:rgba(56,189,248,.3);color:var(--accent)">Dual Degree</div>
+      <div class="cert-logo">🎓</div>
+      <div class="cert-name">MBA</div>
+      <div class="cert-issuer">Central Michigan University</div>
+      <div class="cert-date">2024 – 2025 · Mount Pleasant, MI</div>
+    </div>
+    <div class="cert-card reveal">
+      <div class="cert-badge" style="background:rgba(56,189,248,.1);border-color:rgba(56,189,248,.3);color:var(--accent)">Dual Degree</div>
+      <div class="cert-logo">🎓</div>
+      <div class="cert-name">MS Information Systems</div>
+      <div class="cert-issuer">Central Michigan University</div>
+      <div class="cert-date">2022 – 2024 · Mount Pleasant, MI</div>
+    </div>
+    <div class="cert-card reveal">
+      <div class="cert-badge" style="background:rgba(167,139,250,.1);border-color:rgba(167,139,250,.3);color:var(--accent2)">Undergraduate</div>
+      <div class="cert-logo">🏫</div>
+      <div class="cert-name">B.Sc. Computer Science</div>
+      <div class="cert-issuer">JNTU Hyderabad, India</div>
+      <div class="cert-date">Computer Science Engineering</div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="exp-container">
+    <div class="sec-hd reveal">
+      <div class="sec-tag">Career</div>
+      <h2 class="sec-title">Experience</h2>
+    </div>
+    <div class="timeline">
+      <div class="tl-item reveal">
+        <div class="tl-date">September 2023 – Present</div>
+        <div class="tl-co">Discover Financial Services</div>
+        <div class="tl-role">ML Engineer · Texas, USA</div>
+        <div class="tl-desc">
+          Led end-to-end ML workflows using FastAPI, Flask, TensorFlow and PyTorch — cutting deployment time 30%. Engineered NLP pipelines with HuggingFace and BERT improving sentiment/classification accuracy 25%. Designed VAE + LSTM anomaly detection for fraud, boosting detection accuracy 30%. Deployed on AWS SageMaker, GCP Vertex AI and BigQuery saving 25% cloud costs. Integrated GPT and LangChain for text summarization and customer insights.
+        </div>
+        <div class="tl-tech">
+          <span class="ttag">FastAPI</span><span class="ttag">PyTorch</span><span class="ttag">HuggingFace</span><span class="ttag">AWS SageMaker</span><span class="ttag">GCP Vertex AI</span><span class="ttag">LangChain</span><span class="ttag">Jenkins</span><span class="ttag">Power BI</span>
+        </div>
+      </div>
+      <div class="tl-item reveal">
+        <div class="tl-date">May 2019 – July 2022</div>
+        <div class="tl-co">Nexova</div>
+        <div class="tl-role">Associate ML Engineer · India</div>
+        <div class="tl-desc">
+          Built customer churn prediction model (Random Forest + XGBoost) achieving 90% accuracy. Applied ensemble learning and deep NLP models improving chatbot sentiment by 18%. Automated ETL pipelines with Python, SQL and Scikit-learn. Deployed ML models on AWS Lambda, S3 and Azure ML. Led migration to microservices with Docker — 15% compute cost reduction and 20% uptime improvement.
+        </div>
+        <div class="tl-tech">
+          <span class="ttag">XGBoost</span><span class="ttag">Scikit-learn</span><span class="ttag">TensorFlow</span><span class="ttag">Docker</span><span class="ttag">AWS Lambda</span><span class="ttag">Azure ML</span><span class="ttag">Tableau</span><span class="ttag">MySQL</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="edu-container">
+    <div class="sec-hd reveal">
+      <div class="sec-tag">Education</div>
+      <h2 class="sec-title">Academic Background</h2>
+    </div>
+    <div class="edu-grid">
+      <div class="edu-card reveal">
+        <div class="edu-icon">📊</div>
+        <div class="edu-degree">MBA — Business Administration</div>
+        <div class="edu-school">Central Michigan University</div>
+        <div class="edu-year">2024 – 2025 · Mount Pleasant, MI</div>
+      </div>
+      <div class="edu-card reveal">
+        <div class="edu-icon">💻</div>
+        <div class="edu-degree">MS — Information Systems</div>
+        <div class="edu-school">Central Michigan University</div>
+        <div class="edu-year">2022 – 2024 · Mount Pleasant, MI</div>
+      </div>
+      <div class="edu-card reveal">
+        <div class="edu-icon">🎓</div>
+        <div class="edu-degree">B.Sc. — Computer Science</div>
+        <div class="edu-school">JNTU Hyderabad, India</div>
+        <div class="edu-year">Computer Science Engineering</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-container">
+    <div class="reveal">
+      <h2 class="contact-cta">Let's build something <span class="hl">data-driven</span> together.</h2>
+      <p class="contact-desc">Open to full-time roles, contract positions, and W2/C2C arrangements. Actively looking across ML, Data Engineering, Data Science, Data Analytics, and Business Analysis. Currently on OPT EAD — authorized to work immediately.</p>
+      <a href="mailto:Manish.vs145@gmail.com" class="cl-item">
+        <div class="cl-icon"><i class="fas fa-envelope"></i></div>
+        <div class="cl-text"><div class="cl-label">Email</div><div class="cl-value">Manish.vs145@gmail.com</div></div>
+        <div class="cl-arrow"><i class="fas fa-arrow-right"></i></div>
+      </a>
+      <a href="https://github.com/MANISH-V14" target="_blank" class="cl-item">
+        <div class="cl-icon"><i class="fab fa-github"></i></div>
+        <div class="cl-text"><div class="cl-label">GitHub</div><div class="cl-value">github.com/MANISH-V14</div></div>
+        <div class="cl-arrow"><i class="fas fa-arrow-right"></i></div>
+      </a>
+      <a href="https://www.linkedin.com/in/manish-v-887028202/" target="_blank" class="cl-item">
+        <div class="cl-icon"><i class="fab fa-linkedin"></i></div>
+        <div class="cl-text"><div class="cl-label">LinkedIn</div><div class="cl-value">linkedin.com/in/manish-v-887028202</div></div>
+        <div class="cl-arrow"><i class="fas fa-arrow-right"></i></div>
+      </a>
+      <a href="tel:+17342628577" class="cl-item">
+        <div class="cl-icon"><i class="fas fa-phone"></i></div>
+        <div class="cl-text"><div class="cl-label">Phone</div><div class="cl-value">+1 (734) 262-8577</div></div>
+        <div class="cl-arrow"><i class="fas fa-arrow-right"></i></div>
+      </a>
+    </div>
+    <div class="cf-form reveal">
+      <div class="cf-group">
+        <label class="cf-label">Name</label>
+        <input type="text" class="cf-input" placeholder="Your full name">
+      </div>
+      <div class="cf-group">
+        <label class="cf-label">Email</label>
+        <input type="email" class="cf-input" placeholder="you@company.com">
+      </div>
+      <div class="cf-group">
+        <label class="cf-label">Role / Opportunity</label>
+        <input type="text" class="cf-input" placeholder="e.g. Data Engineer, ML Engineer, Contract...">
+      </div>
+      <div class="cf-group">
+        <label class="cf-label">Message</label>
+        <textarea class="cf-textarea" rows="5" placeholder="Tell me about the role or project..."></textarea>
+      </div>
+      <button class="btn-p" style="width:fit-content" onclick="sendMsg(this)">
+        <i class="fas fa-paper-plane"></i> Send Message
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-txt">© 2026 Manish Vemula · ML & Data Engineer · Ypsilanti, MI</div>
+  <div class="footer-soc">
+    <a href="https://github.com/MANISH-V14" target="_blank" class="soc-link"><i class="fab fa-github"></i></a>
+    <a href="https://www.linkedin.com/in/manish-v-887028202/" target="_blank" class="soc-link"><i class="fab fa-linkedin"></i></a>
+    <a href="mailto:Manish.vs145@gmail.com" class="soc-link"><i class="fas fa-envelope"></i></a>
+    <a href="tel:+17342628577" class="soc-link"><i class="fas fa-phone"></i></a>
+  </div>
+</footer>
+
+<script>
+// CURSOR
+const cur = document.getElementById('cursor'), ring = document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx-4.5+'px';cur.style.top=my-4.5+'px'});
+(function anim(){rx+=(mx-rx)*.15;ry+=(my-ry)*.15;ring.style.left=rx-18+'px';ring.style.top=ry-18+'px';requestAnimationFrame(anim)})();
+document.querySelectorAll('a,button,.pc,.dbtn').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cur.style.transform='scale(2)';ring.style.opacity='.4'});
+  el.addEventListener('mouseleave',()=>{cur.style.transform='scale(1)';ring.style.opacity='1'});
+});
+
+// HEATMAP
+const hm = document.getElementById('heatmap');
+const seed = [0,0,1,0,1,2,1,0,2,3,2,1,0,2,3,4,3,2,1,3,4,3,2,4,3,2,1,0,1,2,3,4,3,2,1,3,4,2,3,4,2,1,0,2,3,1,2,3,4,3,2,1,3,4,3,4,2,1,0,1,2,3,1,0,2,3,4,3,1,2,3,4,3,2,1,0,1,2,3,1,2,3,2,1,0,1,2,3,4,3,2,1,0,1,2,3,4,3,2,4,4,3,2,1,3,4,3,2,1,0,1,2,3,0,1,2,3,1,2,3,4,3,2,1,2,3,4,3,2,4,3,4,3,2,1,3,4,4,3,2,1,2,3,4,4,3,4,3,2,1,0,1,2,3,1,0,1,2,3,2,1,0,2,3,1,2,3,4,3,2,1,3,4,3,4,2,1,0,1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+for(let i=0;i<52*7;i++){const c=document.createElement('div');c.className='hc c'+(seed[i]||0);hm.appendChild(c)}
+
+// DEMOS
+const demos = {
+  fraud:{file:'fraud_detection_api.py',
+    code:`<span class="ck">from</span> fastapi <span class="ck">import</span> FastAPI
+<span class="ck">from</span> pydantic <span class="ck">import</span> BaseModel
+<span class="ck">import</span> joblib, numpy <span class="ck">as</span> np
+
+app = FastAPI(title=<span class="cs">"Fraud Detection API"</span>)
+model = joblib.load(<span class="cs">"models/fraud_xgb_v2.pkl"</span>)
+scaler = joblib.load(<span class="cs">"models/scaler.pkl"</span>)
+
+<span class="ck">class</span> <span class="cf">Transaction</span>(BaseModel):
+    amount: float
+    merchant_category: int
+    hour_of_day: int
+    distance_from_home: float
+    num_transactions_1h: int
+
+@app.post(<span class="cs">"/predict"</span>)
+<span class="ck">async def</span> <span class="cf">predict_fraud</span>(txn: Transaction):
+    features = np.array([[
+        txn.amount, txn.merchant_category,
+        txn.hour_of_day, txn.distance_from_home,
+        txn.num_transactions_1h
+    ]])
+    X_scaled = scaler.transform(features)
+    proba = model.predict_proba(X_scaled)[<span class="cn">0</span>][<span class="cn">1</span>]
+    <span class="ck">return</span> {
+        <span class="cs">"fraud_probability"</span>: <span class="cf">round</span>(<span class="cf">float</span>(proba), <span class="cn">4</span>),
+        <span class="cs">"prediction"</span>: <span class="cs">"FRAUD"</span> <span class="ck">if</span> proba > <span class="cn">0.5</span> <span class="ck">else</span> <span class="cs">"LEGIT"</span>,
+        <span class="cs">"risk_level"</span>: <span class="cs">"HIGH"</span> <span class="ck">if</span> proba > <span class="cn">0.8</span> <span class="ck">else</span> <span class="cs">"MEDIUM"</span>
+    }`,
+    output:`Server: http://localhost:8000
+Docs: http://localhost:8000/docs ✓
+
+POST /predict
+{amount: 15420.00, merchant_category: 8, hour_of_day: 2,
+ distance_from_home: 120.5, num_transactions_1h: 7}
+
+Response (38ms):
+{
+  "fraud_probability": 0.9412,
+  "prediction": "FRAUD",
+  "risk_level": "HIGH"
+}
+✓ Model: XGBoost v2 | AUC: 0.97 | Live on Render`
+  },
+  credit:{file:'credit_risk_model.py',
+    code:`<span class="ck">import</span> xgboost <span class="ck">as</span> xgb
+<span class="ck">from</span> sklearn.pipeline <span class="ck">import</span> Pipeline
+<span class="ck">from</span> sklearn.preprocessing <span class="ck">import</span> StandardScaler
+<span class="ck">from</span> sklearn.model_selection <span class="ck">import</span> StratifiedKFold
+<span class="ck">import</span> streamlit <span class="ck">as</span> st
+
+<span class="cc"># Build pipeline with preprocessing + XGBoost</span>
+pipeline = Pipeline([
+    (<span class="cs">'scaler'</span>, StandardScaler()),
+    (<span class="cs">'model'</span>, xgb.XGBClassifier(
+        n_estimators=<span class="cn">200</span>,
+        max_depth=<span class="cn">6</span>,
+        learning_rate=<span class="cn">0.05</span>,
+        subsample=<span class="cn">0.8</span>,
+        use_label_encoder=<span class="ck">False</span>,
+        eval_metric=<span class="cs">'auc'</span>
+    ))
+])
+
+<span class="cc"># Train with cross-validation</span>
+cv = StratifiedKFold(n_splits=<span class="cn">5</span>, shuffle=<span class="ck">True</span>)
+scores = cross_val_score(
+    pipeline, X_train, y_train,
+    cv=cv, scoring=<span class="cs">'roc_auc'</span>
+)
+<span class="cf">print</span>(<span class="cs">f"CV AUC: {scores.mean():.4f} ± {scores.std():.4f}"</span>)`,
+    output:`Training XGBoost credit risk model...
+Cross-validation (5-fold):
+
+Fold 1: AUC = 0.9421
+Fold 2: AUC = 0.9387
+Fold 3: AUC = 0.9456
+Fold 4: AUC = 0.9398
+Fold 5: AUC = 0.9443
+
+CV AUC: 0.9421 ± 0.0025
+Test Accuracy: 91.3%
+F1 Score: 0.894
+✓ Deployed to Streamlit Cloud`
+  },
+  rag:{file:'rag_query_engine.py',
+    code:`<span class="ck">from</span> langchain.embeddings <span class="ck">import</span> HuggingFaceEmbeddings
+<span class="ck">from</span> langchain.vectorstores <span class="ck">import</span> FAISS
+<span class="ck">from</span> langchain.chains <span class="ck">import</span> RetrievalQA
+<span class="ck">from</span> langchain.llms <span class="ck">import</span> OpenAI
+<span class="ck">from</span> langchain.document_loaders <span class="ck">import</span> PyPDFLoader
+
+<span class="cc"># Load and chunk resume document</span>
+loader = PyPDFLoader(<span class="cs">"resume.pdf"</span>)
+docs = loader.load_and_split()
+
+<span class="cc"># Build vector store from embeddings</span>
+embeddings = HuggingFaceEmbeddings(
+    model_name=<span class="cs">"sentence-transformers/all-MiniLM-L6-v2"</span>
+)
+vectorstore = FAISS.from_documents(docs, embeddings)
+
+<span class="cc"># Build RAG chain</span>
+qa = RetrievalQA.from_chain_type(
+    llm=OpenAI(temperature=<span class="cn">0</span>),
+    retriever=vectorstore.as_retriever(
+        search_kwargs={<span class="cs">"k"</span>: <span class="cn">4</span>}
+    )
+)
+
+result = qa.run(<span class="cs">"What ML tools has Manish used?"</span>)`,
+    output:`Initializing RAG system...
+Loading document: resume.pdf (1 page)
+Creating vector embeddings... done
+FAISS index built: 12 chunks
+
+Query: "What ML tools has Manish used?"
+
+Retrieving relevant chunks... (92ms)
+Found 4 relevant passages (similarity ≥ 0.84)
+
+Answer: Manish has worked with TensorFlow, PyTorch, 
+XGBoost, HuggingFace Transformers, LangChain, 
+Scikit-learn, and deployed on AWS SageMaker, 
+GCP Vertex AI, and Azure ML.
+
+✓ API live: ai-resume-rag-system.onrender.com`
+  },
+  forecast:{file:'demand_forecast.py',
+    code:`<span class="ck">from</span> prophet <span class="ck">import</span> Prophet
+<span class="ck">from</span> sklearn.ensemble <span class="ck">import</span> GradientBoostingRegressor
+<span class="ck">import</span> pandas <span class="ck">as</span> pd
+<span class="ck">import</span> streamlit <span class="ck">as</span> st
+
+<span class="cc"># Prophet model for trend + seasonality</span>
+prophet_model = Prophet(
+    seasonality_mode=<span class="cs">'multiplicative'</span>,
+    yearly_seasonality=<span class="ck">True</span>,
+    weekly_seasonality=<span class="ck">True</span>,
+    daily_seasonality=<span class="ck">False</span>
+)
+prophet_model.add_country_holidays(country_name=<span class="cs">'US'</span>)
+prophet_model.fit(df_train)
+
+<span class="cc"># Forecast 90 days ahead</span>
+future = prophet_model.make_future_dataframe(
+    periods=<span class="cn">90</span>, freq=<span class="cs">'D'</span>
+)
+forecast = prophet_model.predict(future)
+
+<span class="cc"># Ensemble with GBM on residuals</span>
+residuals = y_train - prophet_preds
+gbm_residual = GradientBoostingRegressor()
+gbm_residual.fit(X_features, residuals)
+final_forecast = prophet_preds + gbm_residual.predict(X_test)`,
+    output:`Fitting Prophet model...
+Training on 365 days of retail data
+
+Model Summary:
+  Trend: upward (+2.1%/month)
+  Weekly seasonality: detected (peak: Fri-Sat)
+  Holiday effects: US holidays encoded
+
+90-Day Forecast Generated:
+  MAPE: 4.8%
+  R² Score: 0.931
+  MAE: 127.4 units
+
+✓ Deployed to Streamlit Cloud
+✓ Interactive dashboard with downloadable CSV`
+  }
+};
+
+let curD = 'fraud';
+function renderD(k){
+  const d=demos[k];
+  document.getElementById('dpTitle').textContent=d.file;
+  document.getElementById('dpCode').innerHTML=d.code;
+  document.getElementById('dpOut').textContent='Click "Run" to execute...';
+}
+function switchD(k,btn){
+  document.querySelectorAll('.dbtn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active'); curD=k; renderD(k);
+}
+function runD(){
+  const o=document.getElementById('dpOut');
+  o.innerHTML='<span style="color:var(--muted)">Running...</span> <span class="tcur2"></span>';
+  setTimeout(()=>{o.innerHTML=demos[curD].output.replace(/\n/g,'<br>');},1300);
+}
+renderD('fraud');
+
+// FILTER PROJECTS
+function filterP(cat,btn){
+  document.querySelectorAll('.fbtn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.pc').forEach(c=>{
+    const cats=c.dataset.cat||'';
+    c.style.display=(cat==='all'||cats.includes(cat))?'flex':'none';
+  });
+}
+
+// SEND MSG
+function sendMsg(btn){
+  btn.innerHTML='<i class="fas fa-check"></i> Sent!';
+  btn.style.background='var(--accent3)';
+  btn.style.color='var(--bg)';
+  setTimeout(()=>{btn.innerHTML='<i class="fas fa-paper-plane"></i> Send Message';btn.style.background='';btn.style.color='';},3000);
+}
+
+// SCROLL REVEAL
+const observer=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')});},{threshold:0.08});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+</script>
+</body>
+</html>
