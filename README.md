@@ -41,6 +41,8 @@ https://retail-demand-forecast-ml-7bska8u5rzhxx9drjv63jm.streamlit.app/
 ### AI Resume RAG System
 Backend API  
 https://ai-resume-rag-system.onrender.com
+FrontEnd:
+https://ai-resume-rag-system-b3hq35jwmnsnlzfvtxakta.streamlit.app/
 
 ### Financial Fraud Detection MLOps Pipeline
 API  
